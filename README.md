@@ -1,12 +1,12 @@
 # MavFix
 This project is run on Node.js/React.js v24.21.0.
 
-To run the project after Node.js has been installed run this command
+To install react modules after Node.js has been installed run this command in the project directory
 ```
 npm install
 ```
 
-To run the local server for the website for debugging run this command
+To run the test server for the website for debugging run this command in the project directory
 ```
 npm run dev
 ```
