@@ -1,0 +1,257 @@
+import './App.css'
+/* Main layout */
+#root {
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  /* =========================
+     MAIN PAGE HEADER
+     ========================= */
+  
+  .MainHeader {
+    background: #0064b1;
+    color: white;
+    padding: 45px 8%;
+    text-align: left;
+  }
+  
+  .MainHeader h1 {
+    margin: 0;
+    font-size: 42px;
+  }
+  
+  .MainHeader h2 {
+    margin-top: 8px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  
+  .ReportButton {
+    background: white;
+    color: #0064b1;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .ReportButton:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+  }
+  
+  /* =========================
+     MAIN CONTENT
+     ========================= */
+  
+  .MainContent {
+    width: 85%;
+    max-width: 1000px;
+    margin: 35px auto !important;
+    text-align: left;
+  }
+  
+  .MainContent > input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  
+  .SearchButton {
+    background: #0064b1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .SearchButton:hover {
+    background: #004f8c;
+  }
+  
+  .MainContent h2 {
+    margin-top: 25px;
+    margin-bottom: 20px;
+  }
+  
+  /* =========================
+     REPORT CARDS
+     ========================= */
+  
+  .MainContent ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .MainContent li {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  .MainContent li h3 {
+    margin-top: 0;
+    font-size: 23px;
+    color: #0064b1;
+  }
+  
+  .MainContent li p {
+    margin: 8px 0;
+  }
+  
+  /* =========================
+     VOTING BUTTONS
+     ========================= */
+  
+  .MainContent li button {
+    padding: 8px 18px;
+    margin-right: 8px;
+    margin-top: 8px;
+    background: #0064b1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .MainContent li button:hover {
+    background: #004f8c;
+  }
+  
+  /* =========================
+     STATUS
+     ========================= */
+  
+  .MainContent li div {
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+  
+  .MainContent select {
+    padding: 7px 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    background: white;
+    margin-left: 5px;
+  }
+  
+  /* =========================
+     REPORT ISSUE PAGE
+     ========================= */
+  
+  .report-page {
+    width: 90%;
+    max-width: 650px;
+    margin: 50px auto;
+    text-align: left;
+  }
+  
+  .report-page h1 {
+    color: #0064b1;
+    margin-bottom: 5px;
+  }
+  
+  .report-page > p {
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .report-form {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .report-form label {
+    font-weight: 600;
+    margin-top: 8px;
+  }
+  
+  .report-form input,
+  .report-form select,
+  .report-form textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 15px;
+  }
+  
+  .report-form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .report-form button {
+    padding: 11px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+  
+  .report-form button[type="submit"] {
+    background: #0064b1;
+    color: white;
+  }
+  
+  .report-form button[type="submit"]:hover {
+    background: #004f8c;
+  }
+  
+  .report-form button[type="button"] {
+    background: #e9ecef;
+    color: #333;
+  }
+  
+  .report-form button[type="button"]:hover {
+    background: #d8dadd;
+  }
+  
+  /* =========================
+     MOBILE
+     ========================= */
+  
+  @media (max-width: 700px) {
+    .MainHeader {
+      padding: 30px 5%;
+    }
+  
+    .MainHeader h1 {
+      font-size: 32px;
+    }
+  
+    .MainContent {
+      width: 90%;
+    }
+  
+    .MainContent > input {
+      width: 100% !important;
+    }
+  
+    .SearchButton {
+      margin-left: 0 !important;
+      margin-bottom: 20px;
+    }
+  
+    .report-page {
+      width: 90%;
+    }
+  }
