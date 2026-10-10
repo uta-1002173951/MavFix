@@ -1,7 +1,7 @@
 # MavFix
 This project is run on Node.js/React.js v24.21.0.
 
-To install react modules after Node.js has been installed run this command in the project directory
+To install react modules after Node.js has been installed run this command in the client AND server directories
 ```
 npm install
 ```
