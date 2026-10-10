@@ -1,7 +1,7 @@
 # MavFix
 This project is run on Node.js/React.js v24.21.0.
 
-The database used is PostgresSQL v18.6
+The database used is PostgreSQL v18.6
 
 To install react modules after Node.js has been installed run this command in the client AND server directories
 ```
