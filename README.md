@@ -9,7 +9,7 @@ To install react modules after Node.js has been installed run this command in th
 ```
 npm install
 ```
-To run the test server for the website for debugging run this command
+To run the test server for the website and/or the database for debugging run this command
 ```
 npm run dev
 ```
