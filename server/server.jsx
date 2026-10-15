@@ -48,6 +48,51 @@ app.post('/api/server/signup', (req, res) => {
   });
 });
 
+app.post('/api/server/report', async (req, res) => {
+  console.log("Backend Received POST request for " + JSON.stringify(req.body));
+  const title = req.body.title;
+  const category = req.body.category;
+  const location = req.body.location;
+  const description = req.body.description;
+  const status = "Open";
+  const major = 0;
+  const minor = 0;
+
+  const selectSTMT = `SELECT MAX(id) AS max FROM reports`;
+  const result = await pool.query(selectSTMT);
+  const id = result.rows[0].max + 1;
+
+  const insertSTMT = `INSERT INTO reports (title, category, location, description, status, major, minor, id) VALUES ('${title}', '${category}', '${location}', '${description}', '${status}', ${major}, ${minor}, ${id})`;
+
+  pool.query(insertSTMT, (err, result) => {
+    if(err) {
+      res.send(JSON.stringify("fail"));
+      console.log(err);
+    } else {
+      res.send(JSON.stringify("success"));
+      console.log(result);
+      console.log("Report inserted successfully");
+    }
+  });
+});
+
+app.get('/api/server/report', (req, res) => {
+  console.log("Backend Received GET request for reports");
+
+  const selectSTMT = `SELECT * FROM reports`;
+
+  pool.query(selectSTMT, (err, result) => {
+    if(err) {
+      res.send(JSON.stringify("fail"));
+      console.log(err);
+    } else {
+      res.send(JSON.stringify(result.rows));
+      console.log(result.rows);
+      console.log("Reports retrieved successfully");
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server on localhost:${port}`);
 });
