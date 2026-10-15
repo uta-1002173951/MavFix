@@ -1,210 +1,99 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function MainPage() {
+function ReportIssue() {
   const navigate = useNavigate();
 
-  const [reports, setReports] = useState(() => {
-    return JSON.parse(localStorage.getItem("mavfixReports")) || [];
-  });
+  const serverUrl = 'http://localhost:4000/api/server/report';
 
-  const [searchText, setSearchText] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearch = () => {
-    setSearchTerm(searchText);
-  };
-
-  const saveReports = (updatedReports) => {
-    setReports(updatedReports);
-
-    localStorage.setItem(
-      "mavfixReports",
-      JSON.stringify(updatedReports)
-    );
-  };
-
-  const handleVote = (index, voteType) => {
-    const updatedReports = [...reports];
-
-    if (voteType === "major") {
-      updatedReports[index].majorVotes =
-        (updatedReports[index].majorVotes || 0) + 1;
-    }
-
-    if (voteType === "minor") {
-      updatedReports[index].minorVotes =
-        (updatedReports[index].minorVotes || 0) + 1;
-    }
-
-    saveReports(updatedReports);
-  };
-
-  const handleStatusChange = (index, newStatus) => {
-    const updatedReports = [...reports];
-
-    updatedReports[index].status = newStatus;
-
-    saveReports(updatedReports);
-  };
-
-  const filteredReports = reports
-    .map((report, index) => ({
-      ...report,
-      originalIndex: index,
-    }))
-    .filter((report) => {
-      const search = searchTerm.toLowerCase();
-
-      return (
-        report.title.toLowerCase().includes(search) ||
-        report.category.toLowerCase().includes(search) ||
-        report.location.toLowerCase().includes(search) ||
-        report.description.toLowerCase().includes(search)
-      );
+  async function sendReport(title, category, location, description) {
+    const response = await fetch(serverUrl, {
+      method: 'POST',
+      headers: {  'Content-Type': 'application/json'  },
+      body: JSON.stringify({ title: title, category: category, location: location, description: description })
     });
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
+
+  const handleReportSubmit = async (e) => {
+    e.preventDefault();
+    const title = document.querySelector('#title').value;
+    const category = document.querySelector('#category').value;
+    const location = document.querySelector('#location').value;
+    const description = document.querySelector('#description').value;
+    const data = await sendReport(title, category, location, description);
+    if(data === "success") {
+      navigate("/main");
+    } else {
+      alert("Report submission failed");
+    }
+  };
 
   return (
-    <>
-      <div className="MainHeader">
-        <h1>Welcome to MavFix</h1>
-        <h2>Report all issues on campus here</h2>
+    <div className="report-page">
+      <h1>Report a Campus Issue</h1>
 
-        <button
-          className="ReportButton"
-          onClick={() => navigate("/report")}
-          style={{
-            width: "200px",
-            height: "40px",
-            marginTop: "20px",
-          }}
-        >
-          Report Issue
-        </button>
-      </div>
+      <p>Provide information about the issue below.</p>
 
-      <div
-        className="MainContent"
-        style={{ marginTop: "20px" }}
-      >
+      <form onSubmit={handleReportSubmit} className="report-form">
+        <label>Issue Title</label>
+
         <input
           type="text"
-          placeholder="Search reports..."
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{
-            width: "80%",
-            height: "30px",
-            marginBottom: "20px",
-          }}
+          placeholder="Example: Broken projector"
+          id = "title"
+          name = "title"
+          required
         />
 
-        <button
-          className="SearchButton"
-          onClick={handleSearch}
-          style={{
-            width: "100px",
-            height: "30px",
-            marginLeft: "10px",
-          }}
+        <label>Category</label>
+
+        <select
+          id = "category"
+          name = "category"
+          required
         >
-          Search
+          <option value="">Select a category</option>
+          <option value="Technology">Technology</option>
+          <option value="Maintenance">Maintenance</option>
+          <option value="Safety">Safety</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label>Campus Location</label>
+
+        <input
+          type="text"
+          placeholder="Example: ERB 103"
+          id = "location"
+          name = "location"
+          required
+        />
+
+        <label>Description</label>
+
+        <textarea
+          placeholder="Describe the issue..."
+          id = "description"
+          name = "description"
+          required
+        />
+
+        <button type="submit">
+          Submit Report
         </button>
 
-        <h2>Recent Reports</h2>
-
-        {filteredReports.length === 0 ? (
-          <p>No matching reports found.</p>
-        ) : (
-          <ul>
-            {filteredReports.map((report) => (
-              <li key={report.originalIndex}>
-                <h3>{report.title}</h3>
-
-                <p>
-                  <strong>Category:</strong> {report.category}
-                </p>
-
-                <p>
-                  <strong>Location:</strong> {report.location}
-                </p>
-
-                <p>
-                  <strong>Description:</strong> {report.description}
-                </p>
-
-                <p>
-                  <strong>Status:</strong> {report.status}
-                </p>
-
-                <p>
-                  <strong>Major:</strong>{" "}
-                  {report.majorVotes || 0}
-                  {" | "}
-                  <strong>Minor:</strong>{" "}
-                  {report.minorVotes || 0}
-                </p>
-
-                <button
-                  onClick={() =>
-                    handleVote(
-                      report.originalIndex,
-                      "major"
-                    )
-                  }
-                >
-                  Major
-                </button>
-
-                <button
-                  onClick={() =>
-                    handleVote(
-                      report.originalIndex,
-                      "minor"
-                    )
-                  }
-                >
-                  Minor
-                </button>
-
-                <div>
-                  <label>
-                    <strong>Update Status: </strong>
-                  </label>
-
-                  <select
-                    value={report.status || "Submitted"}
-                    onChange={(e) =>
-                      handleStatusChange(
-                        report.originalIndex,
-                        e.target.value
-                      )
-                    }
-                  >
-                    <option value="Submitted">
-                      Submitted
-                    </option>
-
-                    <option value="Under Review">
-                      Under Review
-                    </option>
-
-                    <option value="In Progress">
-                      In Progress
-                    </option>
-
-                    <option value="Resolved">
-                      Resolved
-                    </option>
-                  </select>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </>
+        <button
+          type="button"
+          onClick={() => navigate("/main")}
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
   );
 }
 
-export default MainPage;
+export default ReportIssue;
