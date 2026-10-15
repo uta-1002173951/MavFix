@@ -4,17 +4,47 @@ import { useNavigate } from "react-router-dom";
 function MainPage() {
   const navigate = useNavigate();
 
+  const serverUrl = 'http://localhost:4000/api/server/report';
+  
+  // unfinished server report fetch implementation
+  /*
+  const [issues, setIssues] = useState([]);
+  const [filteredIssues, setFilteredIssues] = useState([]);
+
+  useEffect(() => {
+    fetch(serverUrl, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((response) => response.json())
+      .then((data) => setIssues(data))
+      .catch((error) => console.error("Error fetching issues:", error));
+  }, []);
+
+  const filterIssues = issues
+    .map((issue, index) => ({
+      ...issue,
+      originalIndex: index,
+    }))
+    .filter((issue) => {
+      const search = searchTerm.toLowerCase();
+      return (
+        issue.title.toLowerCase().includes(search) ||
+        issue.category.toLowerCase().includes(search) ||
+        issue.location.toLowerCase().includes(search) ||
+        issue.description.toLowerCase().includes(search)
+      );
+    });
+  */
+
   const [reports, setReports] = useState(() => {
     return JSON.parse(localStorage.getItem("mavfixReports")) || [];
   });
-
   const [searchText, setSearchText] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
   const handleSearch = () => {
     setSearchTerm(searchText);
   };
-
   const saveReports = (updatedReports) => {
     setReports(updatedReports);
 
@@ -23,23 +53,18 @@ function MainPage() {
       JSON.stringify(updatedReports)
     );
   };
-
   const handleVote = (index, voteType) => {
     const updatedReports = [...reports];
-
     if (voteType === "major") {
       updatedReports[index].majorVotes =
         (updatedReports[index].majorVotes || 0) + 1;
     }
-
     if (voteType === "minor") {
       updatedReports[index].minorVotes =
         (updatedReports[index].minorVotes || 0) + 1;
     }
-
     saveReports(updatedReports);
   };
-
   const handleStatusChange = (index, newStatus) => {
     const updatedReports = [...reports];
 
@@ -47,7 +72,6 @@ function MainPage() {
 
     saveReports(updatedReports);
   };
-
   const filteredReports = reports
     .map((report, index) => ({
       ...report,
@@ -55,7 +79,6 @@ function MainPage() {
     }))
     .filter((report) => {
       const search = searchTerm.toLowerCase();
-
       return (
         report.title.toLowerCase().includes(search) ||
         report.category.toLowerCase().includes(search) ||
