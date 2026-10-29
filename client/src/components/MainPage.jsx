@@ -1,45 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function MainPage() {
   const navigate = useNavigate();
 
-  const serverUrl = 'http://localhost:4000/api/server/report';
-  
-  // unfinished server report fetch implementation
-  /*
-  const [issues, setIssues] = useState([]);
-  const [filteredIssues, setFilteredIssues] = useState([]);
+  const serverUrl = 'http://localhost:4000/api/server/main';
 
+  const [reports, setReports] = useState([]);
   useEffect(() => {
-    fetch(serverUrl, {
+    getReports();
+  }, [])
+
+  async function getReports() {
+    const response = await fetch(serverUrl, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((response) => response.json())
-      .then((data) => setIssues(data))
-      .catch((error) => console.error("Error fetching issues:", error));
-  }, []);
-
-  const filterIssues = issues
-    .map((issue, index) => ({
-      ...issue,
-      originalIndex: index,
-    }))
-    .filter((issue) => {
-      const search = searchTerm.toLowerCase();
-      return (
-        issue.title.toLowerCase().includes(search) ||
-        issue.category.toLowerCase().includes(search) ||
-        issue.location.toLowerCase().includes(search) ||
-        issue.description.toLowerCase().includes(search)
-      );
+      headers: {  'Content-Type': 'application/json'  },
     });
-  */
+    const data = await response.json();
+    console.log(data);
+    setReports(data);
+    return data;
+  }
 
-  const [reports, setReports] = useState(() => {
-    return JSON.parse(localStorage.getItem("mavfixReports")) || [];
-  });
   const [searchText, setSearchText] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = () => {
