@@ -1,10 +1,11 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ReportIssue() {
   const navigate = useNavigate();
 
   const serverUrl = 'http://localhost:4000/api/server/report';
+  const serverUrlP = 'http://localhost:4000/api/server/upload'
+
 
   async function sendReport(title, category, location, description) {
     const response = await fetch(serverUrl, {
@@ -17,18 +18,38 @@ function ReportIssue() {
     return data;
   }
 
+  async function sendPhoto(photo, id) {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('photo', photo.files[0]);
+    const response = await fetch(serverUrlP, {
+      method: 'POST',
+      body: formData
+    });
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
+
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     const title = document.querySelector('#title').value;
     const category = document.querySelector('#category').value;
     const location = document.querySelector('#location').value;
     const description = document.querySelector('#description').value;
-    const data = await sendReport(title, category, location, description);
-    if(data === "success") {
-      navigate("/main");
-    } else {
+    const photo = document.getElementById('photo');
+    const reportId = await sendReport(title, category, location, description);
+    if(reportId === "fail") {
       alert("Report submission failed");
+      return;
     }
+    if(photo.files.length > 0) {
+      const photoResult = await sendPhoto(photo, reportId);
+      if(photoResult.message !== "success") {
+        alert("Report submitted, but its photo could not be uploaded.");
+      }
+    }
+    navigate("/main");
   };
 
   return (
@@ -79,6 +100,15 @@ function ReportIssue() {
           id = "description"
           name = "description"
           required
+        />
+
+        <label>Photo Upload (optional)</label>
+
+        <input
+          type="file"
+          id="photo"
+          name="photo"
+          accept="image/jpeg,image/png,image/gif"
         />
 
         <button type="submit">
