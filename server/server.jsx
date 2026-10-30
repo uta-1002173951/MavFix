@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// LoginPage API
 app.post('/api/server/login', (req, res) => {
   console.log("Backend Received POST request for " + JSON.stringify(req.body));
   const username = req.body.username;
@@ -27,7 +28,6 @@ app.post('/api/server/login', (req, res) => {
     }
   });
 });
-
 app.post('/api/server/signup', (req, res) => {
   console.log("Backend Received POST request for " + JSON.stringify(req.body));
   const username = req.body.username;
@@ -48,6 +48,7 @@ app.post('/api/server/signup', (req, res) => {
   });
 });
 
+// ReportIssue API
 app.post('/api/server/report', async (req, res) => {
   console.log("Backend Received POST request for " + JSON.stringify(req.body));
   const title = req.body.title;
@@ -76,7 +77,8 @@ app.post('/api/server/report', async (req, res) => {
   });
 });
 
-app.get('/api/server/report', (req, res) => {
+// MainPage API
+app.get('/api/server/main', (req, res) => {
   console.log("Backend Received GET request for reports");
 
   const selectSTMT = `SELECT * FROM reports`;
