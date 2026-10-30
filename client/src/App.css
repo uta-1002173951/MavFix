@@ -52,11 +52,28 @@
     text-align: left;
   }
   
-  .MainContent > input {
+  .SearchBar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .SearchBar > input {
+    flex: 1 1 300px;
+    min-width: 0;
+    height: 40px;
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
     box-sizing: border-box;
+  }
+
+  .SearchBar .SearchButton {
+    min-width: 90px;
+    height: 40px;
+    padding: 0 16px;
   }
   
   .SearchButton {
@@ -71,7 +88,29 @@
   .SearchButton:hover {
     background: #004f8c;
   }
-  
+
+  .ReportFilters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+  }
+
+  .ReportFilters label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 600;
+  }
+
+  .ReportFilters select {
+    min-width: 200px;
+    margin-left: 0;
+  }
+
   .MainContent h2 {
     margin-top: 25px;
     margin-bottom: 20px;
@@ -241,13 +280,8 @@
       width: 90%;
     }
   
-    .MainContent > input {
-      width: 100% !important;
-    }
-  
-    .SearchButton {
-      margin-left: 0 !important;
-      margin-bottom: 20px;
+    .SearchBar > input {
+      flex-basis: 100%;
     }
   
     .report-page {
