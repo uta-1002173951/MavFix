@@ -14,7 +14,6 @@ function ReportIssue() {
       body: JSON.stringify({ title: title, category: category, location: location, description: description })
     });
     const data = await response.json();
-    console.log(data);
     return data;
   }
 
@@ -27,7 +26,6 @@ function ReportIssue() {
       body: formData
     });
     const data = await response.json();
-    console.log(data);
     return data;
   }
 
@@ -53,13 +51,16 @@ function ReportIssue() {
   };
 
   return (
-    <div className="report-page">
-      <h1>Report a Campus Issue</h1>
+    <main className="report-page">
+      <button className="report-back" type="button" onClick={() => navigate("/main")}>
+        ← &nbsp; Back to reports
+      </button>
+      <h1>Report an issue</h1>
 
-      <p>Provide information about the issue below.</p>
+      <p>Share details about your issue below.</p>
 
       <form onSubmit={handleReportSubmit} className="report-form">
-        <label>Issue Title</label>
+        <label htmlFor="title">Issue title</label>
 
         <input
           type="text"
@@ -69,7 +70,7 @@ function ReportIssue() {
           required
         />
 
-        <label>Category</label>
+        <label htmlFor="category">Category</label>
 
         <select
           id = "category"
@@ -83,7 +84,7 @@ function ReportIssue() {
           <option value="Other">Other</option>
         </select>
 
-        <label>Campus Location</label>
+        <label htmlFor="location">Campus location</label>
 
         <input
           type="text"
@@ -93,7 +94,7 @@ function ReportIssue() {
           required
         />
 
-        <label>Description</label>
+        <label htmlFor="description">Description</label>
 
         <textarea
           placeholder="Describe the issue..."
@@ -102,7 +103,7 @@ function ReportIssue() {
           required
         />
 
-        <label>Photo Upload (optional)</label>
+        <label htmlFor="photo">Photo upload (optional)</label>
 
         <input
           type="file"
@@ -122,7 +123,7 @@ function ReportIssue() {
           Cancel
         </button>
       </form>
-    </div>
+    </main>
   );
 }
 
