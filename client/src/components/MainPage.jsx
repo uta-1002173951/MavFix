@@ -12,9 +12,10 @@ const reportStatuses = [
 function MainPage() {
   const navigate = useNavigate();
 
-  const serverUrl = 'http://localhost:4000/api/server/main';
-  const serverUrlP = 'http://localhost:4000/api/server/upload';
-  const voteUrl = 'http://localhost:4000/api/server/vote';
+  const API_URL = import.meta.env.VITE_API_URL;
+  const serverUrl = `${API_URL}/server/main`;
+  const serverUrlP = `${API_URL}/server/upload`;
+  const voteUrl = `${API_URL}/server/vote`;
 
   const [reports, setReports] = useState([]);
   const [photos, setPhotos] = useState([]);
