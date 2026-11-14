@@ -7,7 +7,7 @@ function LoginPage() {
     const [authError, setAuthError] = useState('');
     const [submitting, setSubmitting] = useState(false);
     
-    const serverUrl = 'http://localhost:4000/api/server';
+    const serverUrl = '/api/server';
 
     async function sendSignUp(username, email, password) {
         const response = await fetch(`${serverUrl}/signup`, {

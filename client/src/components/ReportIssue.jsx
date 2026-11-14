@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 function ReportIssue() {
   const navigate = useNavigate();
 
-  const serverUrl = 'http://localhost:4000/api/server/report';
-  const serverUrlP = 'http://localhost:4000/api/server/upload'
+  const serverUrl = '/api/server/report';
+  const serverUrlP = '/api/server/upload'
 
 
   async function sendReport(title, category, location, description) {
