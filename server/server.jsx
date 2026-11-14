@@ -5,6 +5,7 @@ const fs = require('fs');
 const cors = require('cors');
 const crypto = require('crypto');
 const pool = require('./database.jsx');
+const { hashPassword, verifyPassword } = require('./passwords');
 const port = 4000;
 const app = express();
 
@@ -94,16 +95,30 @@ app.post('/api/server/login', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT username, email FROM userinfo
-       WHERE (username = $1 OR LOWER(email) = LOWER($1)) AND password = $2
+      `SELECT username, email, password FROM userinfo
+       WHERE username = $1 OR LOWER(email) = LOWER($1)
        LIMIT 1`,
-      [identifier, password]
+      [identifier]
     );
-    if (!result.rows[0]) {
+    const account = result.rows[0];
+    if (!account) {
       return res.status(401).json({ error: 'Invalid username/email or password.' });
     }
 
-    const user = await createSession(result.rows[0], res);
+    const verification = await verifyPassword(password, account.password);
+    if (!verification.valid) {
+      return res.status(401).json({ error: 'Invalid username/email or password.' });
+    }
+
+    if (verification.needsRehash) {
+      const passwordHash = await hashPassword(password);
+      await pool.query(
+        'UPDATE userinfo SET password = $1 WHERE username = $2',
+        [passwordHash, account.username]
+      );
+    }
+
+    const user = await createSession(account, res);
     return res.json({ success: true, user });
   } catch (error) {
     console.error('Sign in failed', error);
@@ -124,9 +139,10 @@ app.post('/api/server/signup', async (req, res) => {
   }
 
   try {
+    const passwordHash = await hashPassword(password);
     await pool.query(
       'INSERT INTO userinfo (email, username, password) VALUES ($1, $2, $3)',
-      [email, username, password]
+      [email, username, passwordHash]
     );
     const user = await createSession({ username, email }, res);
     return res.status(201).json({ success: true, user });

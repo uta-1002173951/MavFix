@@ -82,7 +82,6 @@ function LoginPage() {
                     <p className="eyebrow">Make UTA's campus a better place</p>
                     <p>Share issue on campus, support other community issues, and follow every issue from report to resolution.</p>
                 </div>
-                <p className="auth-footer">Built for Mavericks, one campus improvement at a time.</p>
             </section>
 
             <section className="auth-main">
