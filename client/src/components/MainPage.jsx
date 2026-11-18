@@ -12,9 +12,9 @@ const reportStatuses = [
 function MainPage() {
   const navigate = useNavigate();
 
-  const serverUrl = 'http://localhost:4000/api/server/main';
-  const serverUrlP = 'http://localhost:4000/api/server/upload';
-  const voteUrl = 'http://localhost:4000/api/server/vote';
+  const serverUrl = '/api/server/main';
+  const serverUrlP = '/api/server/upload';
+  const voteUrl = '/api/server/vote';
 
   const [reports, setReports] = useState([]);
   const [photos, setPhotos] = useState([]);
