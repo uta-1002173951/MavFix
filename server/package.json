@@ -5,8 +5,8 @@
   "main": "server.jsx",
   "scripts": {
     "test": "node --test",
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node server.jsx",
+    "dev": "nodemon server.jsx"
   },
   "keywords": [],
   "author": "",
