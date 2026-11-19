@@ -76,7 +76,7 @@ function MainPage() {
   useEffect(() => {
     let active = true;
 
-    fetch('http://localhost:4000/api/server/session', { credentials: 'include' })
+    fetch('/api/server/session', { credentials: 'include' })
       .then(async (response) => {
         if (response.status === 401) return null;
         const data = await response.json();
@@ -158,7 +158,7 @@ function MainPage() {
     setPendingStatuses((pending) => ({ ...pending, [reportKey]: true }));
     try {
       const response = await fetch(
-        `http://localhost:4000/api/server/reports/${encodeURIComponent(reportKey)}/status`,
+        `/api/server/reports/${encodeURIComponent(reportKey)}/status`,
         {
           method: 'PATCH',
           credentials: 'include',
